@@ -254,10 +254,10 @@ if __name__ == '__main__':
 
         parser.add_argument('--n_question', type=int, default=4, help='the number of unique questions in the dataset')
         parser.add_argument('--seqlen', type=int, default=350, help='the allowed maximum length of a sequence')
-        parser.add_argument('--data_dir', type=str, default='../../data/errex', help='data directory')
+        parser.add_argument('--data_dir', type=str, default='/content/DKVMN/data/errex', help='data directory')
         parser.add_argument('--data_name', type=str, default='errex', help='data set name')
-        parser.add_argument('--load', type=str, default='errex', help='model file to load')
-        parser.add_argument('--save', type=str, default='errex', help='path to save model')
+        parser.add_argument('--load', type=str, default='/content/DKVMN/data/errex', help='model file to load')
+        parser.add_argument('--save', type=str, default='/content/DKVMN/data/errex/checkpoints', help='path to save model')
 
 
     params = parser.parse_args()
