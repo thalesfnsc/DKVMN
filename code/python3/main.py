@@ -314,7 +314,7 @@ if __name__ == '__main__':
         params.memory_value_state_dim = params.qa_embed_dim
         test_data_path = params.data_dir + "/" + params.data_name  +"_test.csv"
         test_q_data, test_qa_data = dat.load_data(test_data_path)
-        best_epoch = 30
+        best_epoch = 300
         file_name = 'b' + str(params.batch_size) + \
                     '_q' + str(params.q_embed_dim) + '_qa' + str(params.qa_embed_dim) + \
                     '_m' + str(params.memory_size) + '_std' + str(params.init_std) + \
