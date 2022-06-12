@@ -45,7 +45,7 @@ def compute_accuracy(all_target, all_pred):
 
 def train(net, params, q_data, qa_data, label):
     N = int(math.floor(len(q_data) / params.batch_size))
-    q_data = q_data.T # Shape: (200,3633)
+    q_data = q_data.T# Shape: (200,3633)
     qa_data = qa_data.T  # Shape: (200,3633)
     # Shuffle the data
     shuffled_ind = np.arange(q_data.shape[1])
@@ -141,9 +141,9 @@ def test(net, params, q_data, qa_data, label, save_preds=False):
         #target = target.astype(np.int)
         #target = (target - 1) / params.n_question
         #target = target.astype(np.float)  # correct: 1.0; wrong 0.0; padding -1.0
+        
         target = (target - 1) / params.n_question
         target = np.floor(target)
-
         input_q = mx.nd.array(input_q)
         input_qa = mx.nd.array(input_qa)
         target = mx.nd.array(target)
@@ -151,11 +151,27 @@ def test(net, params, q_data, qa_data, label, save_preds=False):
         data_batch = mx.io.DataBatch(data=[input_q, input_qa], label=[])
         net.forward(data_batch, is_train=False)
         pred = net.get_outputs()[0].asnumpy()
+        teste = pred.reshape((params.seqlen,params.batch_size))[:,:params.batch_size]
+        
+        print(teste.shape)
+        pred_transpose = teste.T
+        
+        print(pred_transpose[0])
         target = target.asnumpy()
+
+        target_transpose = target.T
+        print(target_transpose[0])
+        #Concatenar o teste ao longo dos batches até somar os 598 alunos
+        #Fazer o mesmo com o target transpose
+        #Tentar gerar o knowledge estimates.
+
+
+        break
         if (idx + 1) * params.batch_size > seq_num:
             real_batch_size = seq_num - idx * params.batch_size
             target = target[:, :real_batch_size]
             pred = pred.reshape((params.seqlen, params.batch_size))[:, :real_batch_size]
+            print(pred.shape)
             pred = pred.reshape((-1,))
             count += real_batch_size
         else:
@@ -178,13 +194,13 @@ def test(net, params, q_data, qa_data, label, save_preds=False):
     if params.show: bar.finish()
     assert count == seq_num
 
-
+    print(len(pred_list[0]))
     all_pred = np.concatenate(pred_list, axis=0)
     all_target = np.concatenate(target_list, axis=0)
     if save_preds:
         import pandas as pd
-        pd.DataFrame(all_pred).to_csv("all_predictions.csv")
-        pd.DataFrame(all_target).to_csv("all_targets.csv")
+        pd.DataFrame(all_pred).to_csv("/content/DKVMN/data/all_pred.csv")
+        pd.DataFrame(all_target).to_csv("/content/DKVMN/data/all_target.csv")
     loss = binaryEntropy(all_target, all_pred)
     auc = compute_auc(all_target, all_pred)
     accuracy = compute_accuracy(all_target, all_pred)

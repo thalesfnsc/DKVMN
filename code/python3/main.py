@@ -320,4 +320,4 @@ if __name__ == '__main__':
                     '_m' + str(params.memory_size) + '_std' + str(params.init_std) + \
                     '_lr' + str(params.init_lr) + '_gn' + str(params.maxgradnorm) + \
                     '_f' + str(params.final_fc_dim) + '_s' + str(seedNum)
-        test_one_dataset(params, file_name, test_q_data, test_qa_data, best_epoch)
+        test_one_dataset(params, file_name, test_q_data, test_qa_data, best_epoch,save_preds=True)
